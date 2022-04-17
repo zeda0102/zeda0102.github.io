@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>网络流笔记4.12 - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="费用流1. 运用EK+Dijkstra求解费用流　
+在原图G中给每个点定义势能 h[i]，并将其每一条边(u,v)的权值修改为 w[u][v]+h[u]-h[v]，得到的新图为G&amp;#39;。
+
+首先,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="网络流笔记4.12 - Hexo"/>
+    <meta name="twitter:description" content="费用流1. 运用EK+Dijkstra求解费用流　
+在原图G中给每个点定义势能 h[i]，并将其每一条边(u,v)的权值修改为 w[u][v]+h[u]-h[v]，得到的新图为G&amp;#39;。
+
+首先,"/>
+    
+    
+    
+    
+    <meta property="og:site_name" content="Hexo"/>
+    <meta property="og:type" content="object"/>
+    <meta property="og:title" content="网络流笔记4.12 - Hexo"/>
+    <meta property="og:description" content="费用流1. 运用EK+Dijkstra求解费用流　
+在原图G中给每个点定义势能 h[i]，并将其每一条边(u,v)的权值修改为 w[u][v]+h[u]-h[v]，得到的新图为G&amp;#39;。
+
+首先,"/>
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">网络流笔记4.12</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">网络流笔记4.12</h1>
+        <div class="stuff">
+            <span>四月 12, 2022</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h4 id="费用流"><a href="#费用流" class="headerlink" title="费用流"></a>费用流</h4><h5 id="1-运用EK-Dijkstra求解费用流"><a href="#1-运用EK-Dijkstra求解费用流" class="headerlink" title="1. 运用EK+Dijkstra求解费用流"></a>1. 运用EK+Dijkstra求解费用流</h5><p>　</p>
+<pre><code>在原图G中给每个点定义势能 h[i]，并将其每一条边(u,v)的权值修改为 w[u][v]+h[u]-h[v]，得到的新图为G&#39;。
+
+首先，G&#39;中的最短路在G中也一定最短。
+    证明：
+        考虑任意一条最短路 (u,x,y,...,z,v)
+        在原图中的权值为w[u][x]+w[x][y]+...+w[z][v]
+        在新图中为 h[u]+w[u][x]-h[x]+h[x]+w[x][y]-h[y]+...+h[z]+w[z][v]-h[v]=w[u][x]+w[x][y]+...+w[z][y]+h[u]-h[v]
+    因此在起点与终点确定的时候，在G&#39;中的最短路在G中也一定最短
+
+考虑在费用流中构造势能 h[i]
+
+起初的费用流有流量(flow)的权值(cost)必定是正的，因此h[i]=0
+
+考虑增广后会加上部分反向边 (u,v), (u,v)必定在最短路上
+    dis[u]+w&#39;[u][v]=dis[v]
+    dis[u]+h[u]+w[u][v]-h[v]=dis[v]
+    (dis[u]+h[u])-(dis[v]+h[v])+w[u][v]=0
+    假使h[u]+=dis[u],h[v]+=dis[v]则w&#39;[u][v]必定不为负
+所以每次增广之后对于 h[i]+=dis[i],则保证正确性。
+</code></pre>
+<p>　　</p>
+<h5 id="2-zkw费用流"><a href="#2-zkw费用流" class="headerlink" title="2. zkw费用流"></a>2. zkw费用流</h5><p><a target="_blank" rel="noopener" href="https://artofproblemsolving.com/community/c1368h1020435__zkw">zkw本人博客</a></p>
+<p>板子SPFA+SLF优化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;cstdio&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;ctime&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;queue&gt;</span><br><span class="line">#include &lt;cstdlib&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;climits&gt;</span><br><span class="line">#include &lt;set&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">bool vis[200001];int dist[200001];</span><br><span class="line">//解释一下各数组的含义：vis两个用处：spfa里的访问标记，増广时候的访问标记，dist是每个点的距离标号</span><br><span class="line">int n,m,s,t,ans=0;</span><br><span class="line">//s是起点，t是终点，ans是费用答案</span><br><span class="line">int nedge=-1,p[200001],c[200001],cc[200001],nex[200001],head[200001];</span><br><span class="line">//这里是边表，解释一下各数组的含义：p[i]表示以某一点出发的编号为i的边对应点，c表示编号为i的边的流量，cc表示编号为i的边的费用，nex和head不说了吧。。。</span><br><span class="line">inline void addedge(int x,int y,int z,int zz)&#123;</span><br><span class="line">    p[++nedge]=y;c[nedge]=z;cc[nedge]=zz;nex[nedge]=head[x];head[x]=nedge;</span><br><span class="line">&#125;</span><br><span class="line">//建边（数组模拟边表倒挂）</span><br><span class="line">inline bool spfa(int s,int t)&#123;</span><br><span class="line">    memset(vis,0,sizeof vis);</span><br><span class="line">    for(int i=0;i&lt;=n;i++)dist[i]=1e9;dist[t]=0;vis[t]=1;</span><br><span class="line">//首先SPFA我们维护距离标号的时候要倒着跑，这样可以维护出到终点的最短路径</span><br><span class="line">    deque&lt;int&gt;q;q.push_back(t);</span><br><span class="line">//使用了SPFA的SLF优化（SLF可以自行百度或Google）</span><br><span class="line">    while(!q.empty())&#123;</span><br><span class="line">        int now=q.front();q.pop_front();</span><br><span class="line">        for(int k=head[now];k&gt;-1;k=nex[k])</span><br><span class="line">        if(c[k^1]&amp;&amp;dist[p[k]]&gt;dist[now]-cc[k])&#123;</span><br><span class="line">//首先c[k^1]是为什么呢，因为我们要保证正流，但是SPFA是倒着跑的，所以说我们要求c[k]的对应反向边是正的，这样保证走的方向是正确的</span><br><span class="line">            dist[p[k]]=dist[now]-cc[k];</span><br><span class="line">//因为已经是倒着的了，我们也可以很清楚明白地知道建边的时候反向边的边权是负的，所以减一下就对了（负负得正）</span><br><span class="line">            if(!vis[p[k]])&#123;</span><br><span class="line">                vis[p[k]]=1;</span><br><span class="line">                if(!q.empty()&amp;&amp;dist[p[k]]&lt;dist[q.front()])q.push_front(p[k]);else q.push_back(p[k]);</span><br><span class="line">//SLF优化</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        vis[now]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    return dist[s]&lt;1e9;</span><br><span class="line">//判断起点终点是否连通</span><br><span class="line">&#125;</span><br><span class="line">inline int dfs(int x,int low)&#123;</span><br><span class="line">//这里就是进行増广了</span><br><span class="line">    if(x==t)&#123;vis[t]=1;return low;&#125;</span><br><span class="line">    int used=0,a;vis[x]=1;</span><br><span class="line">//这边是不是和dinic很像啊</span><br><span class="line">    for(int k=head[x];k&gt;-1;k=nex[k])</span><br><span class="line">    if(!vis[p[k]]&amp;&amp;c[k]&amp;&amp;dist[x]-cc[k]==dist[p[k]])&#123;</span><br><span class="line">//这个条件就表示这条边可以进行増广</span><br><span class="line">        a=dfs(p[k],min(c[k],low-used));</span><br><span class="line">        if(a)ans+=a*cc[k],c[k]-=a,c[k^1]+=a,used+=a;</span><br><span class="line">//累加答案，加流等操作都在这了</span><br><span class="line">        if(used==low)break;</span><br><span class="line">    &#125;</span><br><span class="line">    return used;</span><br><span class="line">&#125;</span><br><span class="line">inline int costflow()&#123;</span><br><span class="line">    int flow=0;</span><br><span class="line">    while(spfa(s,t))&#123;</span><br><span class="line">//判断起点终点是否连通，不连通说明满流，做完了退出</span><br><span class="line">        vis[t]=1;</span><br><span class="line">        while(vis[t])&#123;</span><br><span class="line">            memset(vis,0,sizeof vis);</span><br><span class="line">            flow+=dfs(s,1e9);</span><br><span class="line">//一直増广直到走不到为止（这样也可以省时间哦）</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return flow;//这里返回的是最大流，费用的答案在ans里</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    memset(nex,-1,sizeof nex);memset(head,-1,sizeof head);</span><br><span class="line">    scanf(&quot;%d%d%d%d&quot;,&amp;n,&amp;m,&amp;s,&amp;t);</span><br><span class="line">    for(int i=1;i&lt;=m;i++)&#123;</span><br><span class="line">        int x,y,z,zz;scanf(&quot;%d%d%d%d&quot;,&amp;x,&amp;y,&amp;z,&amp;zz);</span><br><span class="line">        addedge(x,y,z,zz);addedge(y,x,0,-zz);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;%d &quot;,costflow());printf(&quot;%d&quot;,ans);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="模拟费用流（待补）"><a href="#模拟费用流（待补）" class="headerlink" title="模拟费用流（待补）"></a>模拟费用流（待补）</h4><h4 id="上下界网络流（待补）"><a href="#上下界网络流（待补）" class="headerlink" title="上下界网络流（待补）"></a>上下界网络流（待补）</h4>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title="0" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
+                        
+                    
+                        
+                            <li title="1" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link"
+		data-enable="false"
+        data-ae="false"
+        data-ci=""
+        data-cs=""
+        data-r=""
+        data-o=""
+        data-a=""
+        data-d="false"
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
